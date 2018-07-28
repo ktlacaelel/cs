@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo tail -n100 log/cs.log | ix json-key timestamp message | ix timestamp
+tail -n100 log/cs.log | ix json-key timestamp message | ix timestamp

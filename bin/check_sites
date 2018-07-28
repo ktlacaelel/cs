@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+fail_hooks = Dir.glob('hooks/fail/*.*')
+okay_hooks = Dir.glob('hooks/okay/*.*')
+
+Dir.glob('sites/*').each do |site_file|
+
+  prefix = "#{site_file.rjust(20, ' ')}"
+
+  the_site = File.read(site_file).chomp
+  command = "./bin/check_site #{the_site}"
+  puts "#{prefix} #{command}"
+
+  site_is_ok = system(command)
+  puts "#{prefix} is site okay? #{site_is_ok} -> #{the_site}"
+
+  if site_is_ok
+    hooks = okay_hooks
+  else
+    hooks = fail_hooks
+  end
+
+  hooks.each do |hook|
+    command = "#{hook} #{the_site}"
+    puts "#{prefix} run hook: #{command}"
+    `#{command}`.each_line do |line|
+      puts "#{prefix} | #{line}"
+    end
+  end
+
+end
+
