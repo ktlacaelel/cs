@@ -26,12 +26,12 @@ Background
 Constraints
 
 
-	- reduce dependancies
-	- ensure portability
+    - reduce dependancies
+    - ensure portability
     - avoid daemons
-	- ensure dumb
-	- super simple config
-	- extendable
+    - ensure dumb
+    - super simple config
+    - extendable
     - only accept 200 requests for now.
 
 
@@ -46,26 +46,26 @@ Dependancies
 Hypothesis
 
 
-	1. if we setup and abstract system which behavior is concise but interaction is configurable we should be able to achieve our needed goals.
-	2. if we use microkernel architecture for this we should be able to establish the behavior but allow for use to extend the desired behavior.
+    1. if we setup and abstract system which behavior is concise but interaction is configurable we should be able to achieve our needed goals.
+    2. if we use microkernel architecture for this we should be able to establish the behavior but allow for use to extend the desired behavior.
 
 
 Solution Proposal
 
 
     Have a directory with files that each have a url.
-	Have a directory of hooks for failed cases and hooks for successful cases.
-	Have a program that will read the urls test them and pass them to the necessary hooks.
+    Have a directory of hooks for failed cases and hooks for successful cases.
+    Have a program that will read the urls test them and pass them to the necessary hooks.
 
 
 Theory Of Operation
 
 
-	A list of urls is read and tested for a 200 http status.
-	If passed then it will be delegated to sucess hooks for handling.
-	If failed then it will be delegated to fail hooks for handling.
-	Sites are files with an url in them.
- 	Hooks are shell programs that will receive the url as ARGV 1
+    A list of urls is read and tested for a 200 http status.
+    If passed then it will be delegated to sucess hooks for handling.
+    If failed then it will be delegated to fail hooks for handling.
+    Sites are files with an url in them.
+    Hooks are shell programs that will receive the url as ARGV 1
 
 
 Black Box
@@ -112,11 +112,11 @@ Functional specification
 
     hook (fail/okay):
 
-    	Shell scriopt that will receive site url via ARGV 1
+        Shell scriopt that will receive site url via ARGV 1
 
     site:
 
-    	A file that will contain just an url.
+        A file that will contain just an url.
 
 
 Technical specification.
@@ -124,9 +124,9 @@ Technical specification.
 
     ./bin/check_site program
 
-    	use curl to check if the http status is 200
-    	if not return 0
-    	if yes return 1
+        use curl to check if the http status is 200
+        if not return 0
+        if yes return 1
 
     ./bin/check_sites program
 
@@ -137,7 +137,7 @@ Technical specification.
                 let hooks be a list of okay hooks
             else
                 let hooks be a list of okay hooks
-    	for each hook
+        for each hook
             execute hook passing site as ARGV1
 
 
@@ -148,7 +148,7 @@ Notes:
         Use cron instead.
     - Use ix-log to manage output and properly stash data.
     - We don't care to enable disable hooks.
-	  If its not being used we don't want it on the system.
+      If its not being used we don't want it on the system.
       If it is what is the problem?
       We don't commit garbage, so when we checkout we don't get it back.
       that simple. have a nice day.
@@ -160,7 +160,7 @@ Example:
 
     * * * *  cd /Users/kazu/dev/git/cs && ./bin/check_sites | /Users/kazu/dev/git/ix/bin/ix-log >> /Users/kazu/dev/git/cs/log/cs.log
 
-	# sucess scenario:
+    # sucess scenario:
     kazu@utopia:~/dev/git/cs$ echo 'http://example.com' > sites/example
     kazu@utopia:~/dev/git/cs$ > log/cs.log 
     kazu@utopia:~/dev/git/cs$ tail -n100 -f log/cs.log | ix json-key timestamp trace_id token_id message
@@ -171,7 +171,7 @@ Example:
     1532810881.029645 ee29c3ee710d194f68dc51f0a14b7de5 5e04e19869902baede900ebf73575ced        sites/example | site is okay: http://example.com
     1532810881.03295 ee29c3ee710d194f68dc51f0a14b7de5 debba9a57fe3b6918765be714b990469 ix log termination marker
 
-	# failure scenario:
+    # failure scenario:
     kazu@utopia:~/dev/git/cs$ echo 'http://example.fail' > sites/example
     kazu@utopia:~/dev/git/cs$ > log/cs.log 
     kazu@utopia:~/dev/git/cs$ tail -n100 -f log/cs.log | ix json-key timestamp trace_id token_id message
@@ -187,9 +187,9 @@ Example:
 Future Work
 
 
-	- run tests in parallel, the more sites the more the execution time
+    - run tests in parallel, the more sites the more the execution time
       will take and the more likely user will land to on overlaping worlds.
-	- use a proper ix integration when it is released.
+    - use a proper ix integration when it is released.
 
 
 end
