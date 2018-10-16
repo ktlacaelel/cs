@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-say "WARNING: SITE DOWN $1"
+say "WARNING: SITE DOWN $2"
 

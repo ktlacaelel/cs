@@ -5,7 +5,7 @@ okay_hooks = Dir.glob('hooks/okay/*.*')
 
 Dir.glob('sites/*').each do |site_file|
 
-  prefix = "#{site_file.rjust(20, ' ')}"
+  prefix = "#{site_file.rjust(30, ' ')}"
 
   the_site = File.read(site_file).chomp
   command = "./bin/check_site #{the_site}"
@@ -21,7 +21,7 @@ Dir.glob('sites/*').each do |site_file|
   end
 
   hooks.each do |hook|
-    command = "#{hook} #{the_site}"
+    command = "#{hook} #{the_site} #{File.basename(site_file)}"
     puts "#{prefix} run hook: #{command}"
     `#{command}`.each_line do |line|
       puts "#{prefix} | #{line}"
