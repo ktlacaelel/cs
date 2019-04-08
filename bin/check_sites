@@ -3,6 +3,17 @@
 fail_hooks = Dir.glob('hooks/fail/*.*')
 okay_hooks = Dir.glob('hooks/okay/*.*')
 
+reliable_website = 'www.google.com'
+
+check_internet_command = "ping #{reliable_website} -c 1 &>/dev/null"
+
+internet_is_ok = system(check_internet_command)
+
+unless internet_is_ok
+  puts 'Computer is offline. Will not check sites'
+  exit 1
+end
+
 Dir.glob('sites/*').each do |site_file|
 
   prefix = "#{site_file.rjust(30, ' ')}"
